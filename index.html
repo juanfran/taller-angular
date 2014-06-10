@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>Taller Angular</title>
+
+        <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+        <meta name="author" content="Hakim El Hattab">
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <link rel="stylesheet" href="css/reveal.min.css">
+        <link rel="stylesheet" href="css/theme/simple.css" id="theme">
+
+        <!-- For syntax highlighting -->
+        <link rel="stylesheet" href="lib/css/zenburn.css">
+
+        <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+        <script>
+            if( window.location.search.match( /print-pdf/gi ) ) {
+                var link = document.createElement( 'link' );
+                link.rel = 'stylesheet';
+                link.type = 'text/css';
+                link.href = 'css/print/pdf.css';
+                document.getElementsByTagName( 'head' )[0].appendChild( link );
+            }
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+
+        <div class="reveal">
+
+            <!-- Any section element inside of this container is displayed as a slide -->
+            <div class="slides">
+                <section>
+                    <h1>Taller AngularJS</h1>
+                </section>
+
+                <section>
+                    <h2>Instalación</h2>
+                    <pre><code data-trim contenteditable>
+git clone --depth=14 https://github.com/angular/angular-phonecat.git
+cd angular-phonecat
+npm install
+                    </code></pre>
+                </section>
+
+                <section>
+                        <h2>Comandos</h2>
+                    <pre><code data-trim contenteditable>
+npm start //inicia un servidor local
+npm test //tests unitarios con karma
+npm run protractor //tests E2E con Protractor
+npm run update-webdriver //instala los drivers necesarios para Protractor
+
+http://localhost:8000/app/index.html
+                    </code></pre>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>Paso 0</h2>
+
+                        <pre><code data-trim contenteditable>
+                                git checkout -f step-0
+                        </code></pre>
+                    </section>
+                    <section>
+                        <p>app/index.html</p>
+
+                        <pre><code data-trim contenteditable>
+&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot; ng-app&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;title&gt;My HTML File&lt;/title&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;bower_components/bootstrap/dist/css/bootstrap.css&quot;&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;css/app.css&quot;&gt;
+  &lt;script src=&quot;bower_components/angular/angular.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;p&gt;Nothing here {{'yet' + '!'}}&lt;/p&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+                        </code></pre>
+                        <aside class="notes">
+                            <p>Iniciamos aplicación la aplicación con ng-app que es una directiva. Esta directiva se encarga de decirla a Angular cual es elemento padre de nuestra aplicación</p>
+                            <p>Templates de Angular, expresiones parecidas a javascript</p>
+                        </aside>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>Paso 1</h2>
+                        <pre><code data-trim contenteditable>
+                                git checkout -f step-1
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Módulos</h2>
+                        <pre><code data-trim contenteditable>
+var myApp = angular.module('myApp', []);
+                        </code></pre>
+
+                        <pre><code data-trim contenteditable>
+&lt;html ng-app=&quot;myApp&quot;&gt;
+                        </code></pre>
+
+                        <aside class="notes">
+                            <p>MVC</p>
+                            <p>Podemos agrupar todo en un módulo (Modelo, vista, controlador)</p>
+                        </aside>
+                    </section>
+                    <section>
+                        <h2>Controller</h2>
+                        <pre><code data-trim contenteditable>
+var myApp = angular.module('myApp', []);
+
+myApp.controller('MyFirstCtrl', function ($scope) {
+  $scope.saludo = "Hello world";
+});
+                        </code></pre>
+                        <pre><code data-trim contenteditable>
+&lt;div ng-controller=&quot;MyFirstCtrl&quot;&gt;
+     &lt;h1&gt;{{saludo}}&lt;/h1&gt;
+&lt;/div&gt;
+                        </code></pre>
+                        <aside class="notes">
+                            <p>Injección de dependencias</p>
+                            <p>$scope, es la comunicación que hay entre el controller y la vista</p>
+                            <p>Todo lo que metamos en $scope es visible en el html</p>
+                        </aside>
+                    </section>
+                    <section>
+                        <h2>Directivas</h2>
+                        <pre><code data-trim contenteditable>
+  <ul>
+    <li ng-repeat="element in list">
+      <p>{{element}}</p>
+    </li>
+  </ul>
+                        </code></pre>
+                        <aside class="notes">
+                            <p>Una directiva añade un coportamiento a un elemento del DOM</p>
+                            <p>Las directivas de Angular empiezan con ng</p>
+                        </aside>
+                    </section>
+
+                    <section>
+                        <h2>Ejercicio</h2>
+                        <pre><code data-trim contenteditable>
+  &lt;p&gt;Total number of phones: 2&lt;/p&gt;
+  &lt;ul&gt;
+    &lt;li&gt;
+      &lt;span&gt;Nexus S&lt;/span&gt;
+      &lt;p&gt;
+        Fast just got faster with Nexus S.
+      &lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;span&gt;Motorola XOOM&#x2122; with Wi-Fi&lt;/span&gt;
+      &lt;p&gt;
+        The Next, Next Generation tablet.
+      &lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Test controller</h2>
+                        <pre><code data-trim contenteditable>
+describe('PhoneListCtrl', function(){
+
+  beforeEach(module('phonecatApp'));
+
+  it('should create "phones" model with 2 phones', inject(function($controller) {
+    var scope = {},
+        ctrl = $controller('PhoneListCtrl', {$scope:scope});
+
+    expect(scope.phones.length).toBe(2);
+  }));
+
+});;
+                        </code></pre>
+                        <aside class="notes">
+                            <p>En Angular los tests son muy importantes, nos da muchas herramientas para que Angular sea muy sencillo de testas</p>
+                            <p>Teneis una carpeta con archivos preparados para los tests</p>
+                            <p>npm test</p>
+                        </aside>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>Paso 2</h2>
+                        <pre><code data-trim contenteditable>
+                                git checkout -f step-2
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Data-binding</h2>
+                        <pre><code data-trim contenteditable>
+phonecatApp.controller('PhoneListCtrl', function ($scope) {
+  $scope.prueba = 'Hola mundo';
+});
+                        </code></pre>
+                        <pre><code data-trim contenteditable>
+&lt;input type=&quot;text&quot; ng-model=&quot;prueba&quot; /&gt;
+&lt;p&gt;{{prueba}}&lt;/p&gt;
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Filtros</h2>
+                        <pre><code data-trim contenteditable>
+&lt;li ng-repeat=&quot;phone in phones | filter:query&quot;&gt;
+                        </code></pre>
+                        <aside class="notes">
+                            <p>filter es un servicio</p>
+                        </aside>
+                    </section>
+                    <section>
+                        <h2>Ejercicio</h2>
+                        <p>test/e2e/scenarios.js</p>
+                        <pre><code data-trim contenteditable>
+describe('PhoneCat App', function() {
+  describe('Phone list view', function() {
+    beforeEach(function() {
+      browser.get('app/index.html');
+    });
+    it('should filter the phone list as user types into the search box', function() {
+      var phoneList = element.all(by.repeater('phone in phones'));
+      var query = element(by.model('query'));
+
+      expect(phoneList.count()).toBe(3);
+
+      query.sendKeys('nexus');
+      expect(phoneList.count()).toBe(1);
+
+      query.clear();
+      query.sendKeys('motorola');
+      expect(phoneList.count()).toBe(2);
+    });
+  });
+});
+                        </code></pre>
+                        <p>+ añadir la query en el title de la página</p>
+                        <aside class="notes">
+                            <p>npm run protractor</p>
+                            <p>ng-bind-template</p>
+                        </aside>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Paso 3</h2>
+
+                        <pre><code data-trim contenteditable>
+                                git checkout -f step-3
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Ejercicio</h2>
+                        <p>Nuevo filtro  `| orderBy:orderProp`</p>
+                        <pre><code data-trim contenteditable>
+describe('PhoneCat controllers', function() {
+  describe('PhoneListCtrl', function(){
+    var scope, ctrl;
+
+    beforeEach(module('phonecatApp'));
+
+    beforeEach(inject(function($controller) {
+      scope = {};
+      ctrl = $controller('PhoneListCtrl', {$scope:scope});
+    }));
+
+    it('should create "phones" model with 3 phones', function() {
+      expect(scope.phones.length).toBe(3);
+    });
+
+    it('should set the default value of orderProp model', function() {
+      expect(scope.orderProp).toBe('age');
+    });
+  });
+});
+                        </code></pre>
+                        <aside class="notes">
+                            <p>hemos añadido la propiedad age</p>
+                        </aside>
+                    </section>
+                    <section>
+                        <pre><code data-trim contenteditable>
+    it('should be possible to control phone order via the drop down select box', function() {
+      var phoneNameColumn = element.all(by.repeater('phone in phones').column('{{phone.name}}'));
+      var query = element(by.model('query'));
+
+      function getNames() {
+        return phoneNameColumn.map(function(elm) {
+          return elm.getText();
+        });
+      }
+
+      query.sendKeys('tablet');
+
+      expect(getNames()).toEqual([
+        "Motorola XOOM\u2122 with Wi-Fi",
+        "MOTOROLA XOOM\u2122"
+      ]);
+
+      element(by.model('orderProp')).findElement(by.css('option[value="name"]')).click();
+
+      expect(getNames()).toEqual([
+        "MOTOROLA XOOM\u2122",
+        "Motorola XOOM\u2122 with Wi-Fi"
+      ]);
+    });
+                        </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Paso 4</h2>
+
+                        <pre><code data-trim contenteditable>
+                                git checkout -f step-4
+                        </code></pre>
+                    </section>
+                    <section>
+                        <pre><code data-trim contenteditable>
+$http.get('urljson.json').success(function (data) {
+    //callback action
+});
+                        </code></pre>
+                        <aside class="notes">
+                            <p>Servicio $http</p>
+                        </aside>
+                    </section>
+                    <section>
+                        <pre><code data-trim contenteditable>
+  describe('PhoneListCtrl', function(){
+    var scope, ctrl, $httpBackend;
+
+    // Load our app module definition before each test.
+    beforeEach(module('phonecatApp'));
+
+    // The injector ignores leading and trailing underscores here (i.e. _$httpBackend_).
+    // This allows us to inject a service but then attach it to a variable
+    // with the same name as the service in order to avoid a name conflict.
+    beforeEach(inject(function(_$httpBackend_, $rootScope, $controller) {
+      $httpBackend = _$httpBackend_;
+      $httpBackend.expectGET('phones/phones.json').
+          respond([{name: 'Nexus S'}, {name: 'Motorola DROID'}]);
+
+      scope = $rootScope.$new();
+      ctrl = $controller('PhoneListCtrl', {$scope: scope});
+    }));
+
+    it('should create "phones" model with 2 phones fetched from xhr', function() {
+      expect(scope.phones).toBeUndefined();
+      $httpBackend.flush();
+
+      expect(scope.phones).toEqual([{name: 'Nexus S'},
+                                   {name: 'Motorola DROID'}]);
+    });
+
+    it('should set the default value of orderProp model', function() {
+      expect(scope.orderProp).toBe('age');
+    });
+                        </code></pre>
+
+                        <aside class="notes">
+                            <p>el $httpBackend.flush() hace que se ejecute la llamada</p>
+                        </aside>
+                    </section>
+                </section>
+            </div>
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.min.js"></script>
+
+        <script>
+
+            // Full list of configuration options available here:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+                center: true,
+
+                theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+                transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+                // Parallax scrolling
+                // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+                // parallaxBackgroundSize: '2100px 900px',
+
+                // Optional libraries used to extend on reveal.js
+                dependencies: [
+                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+                    { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+                ]
+            });
+
+        </script>
+
+    </body>
+</html>
