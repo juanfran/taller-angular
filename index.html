@@ -297,7 +297,8 @@ describe('PhoneCat controllers', function() {
 });
                         </code></pre>
                         <aside class="notes">
-                            <p>hemos añadido la propiedad age</p>
+                            <p>Hemos añadido la propiedad age en el scope</p>
+                            <p>Crear un combo con propiedad age</p>
                         </aside>
                     </section>
                     <section>
@@ -339,8 +340,11 @@ describe('PhoneCat controllers', function() {
                     </section>
                     <section>
                         <pre><code data-trim contenteditable>
-$http.get('urljson.json').success(function (data) {
-    //callback action
+
+myApp.controller('MyFirstCtrl', function ($scope, $http) {
+    $http.get('urljson.json').success(function (data) {
+        //callback action
+    });
 });
                         </code></pre>
                         <aside class="notes">
@@ -385,6 +389,243 @@ $http.get('urljson.json').success(function (data) {
                         </aside>
                     </section>
                 </section>
+                <section>
+                    <section>
+                        <h2>Paso 5</h2>
+
+                        <pre><code data-trim contenteditable>
+                                git checkout -f step-5
+                        </code></pre>
+                    </section>
+                    <section>
+                        <pre><code data-trim contenteditable>
+                                <img ng-src="{{url}}">
+                        </code></pre>
+                    </section>
+                    <section>
+                        <p>Añadir link a los teléfonos usando su campo id</p>
+                        <pre><code data-trim contenteditable>
+    it('should render phone specific links', function() {
+      var query = element(by.model('query'));
+      query.sendKeys('nexus');
+      element(by.css('.phones li a')).click();
+      browser.getLocationAbsUrl().then(function(url) {
+        expect(url.split('#')[1]).toBe('/phones/nexus-s');
+      });
+    });
+
+                        </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Paso 6</h2>
+
+                        <pre><code data-trim contenteditable>
+                                git checkout -f step-6
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <p>Factory</p>
+<pre><code data-trim contenteditable>
+myApp.factory('Amazon', function($http) {
+     var apiKey = 1234;
+
+      return {
+           getAll: function () {
+                return $http.get('urljson.json', key: apiKey);
+           }
+      }
+});
+
+myApp.controller('MyFirstCtrl', function (Amazon) {
+    Amazon.getAll();
+});
+
+</code></pre>
+                    </section>
+
+                    <section>
+                        <p>Service vs Factory vs Provider</p>
+<pre><code data-trim contenteditable>
+//cuando llamos a un Provider en el config nos devulve una instancia de esta función
+myApp.provider('Amazon', function () {
+    var apiKey = '';
+
+    //lo puedo llamar desde el .config
+    this.setApiKey = function(key) {
+      apiKey = key;
+    };
+
+    // Factory, el servicio es una instancia del lo que retorna $get
+    this.$get = function($http) {
+      return {
+           getAll: function () {
+                return $http.get('urljson.json', key: apiKey);
+           }
+      }
+   }
+});
+
+myApp.config(function(AmazonProvider) {
+   AmazonProvider.setApiKey(12345);
+});
+</code></pre>
+                    </section>
+
+                    <section>
+                        <h2>Providers</h2>
+
+                        <ul>
+                            <li>Exponen APIs de configuración para poder controlar la creación y el comportamiento de un servicio</li>
+                            <li>Los provider sólo se pueden usar en la función config de Angular</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <pre><code data-trim contenteditable>
+&lt;script src=&quot;bower_components/angular-route/angular-route.js&quot;&gt;&lt;/script&gt;
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <h2>routeProvider</h2>
+                        <pre><code data-trim contenteditable>
+phonecatApp.config(['$routeProvider',
+  function($routeProvider) {
+    $routeProvider
+      .when('/phones', {
+        templateUrl: 'xx.html',
+        controller: 'controller'
+      })
+
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <pre><code data-trim contenteditable>
+&lt;div ng-view&gt;&lt;/div&gt;
+                        </code></pre>
+                        <aside class="notes">
+                            <p>Nos olvidamos del ng-controller</p>
+                        </aside>
+                    </section>
+
+                    <section>
+                        <h2>Ejercicio</h2>
+                        <li>Mover el listado fuera del index</li>
+                        <li>Mover nuestro controller a un nuevo módulo</li>
+                        <li>Injectar el nuevo módulos y el módulo de ngRoute en el módulo phonecatApp</li>
+                        <li>Crear la página de detalle de un teléfono pero que sólo muestre el id, usar el servicio $routeParams para recuperarlo</li>
+                    </section>
+
+                    <section>
+                        <pre><code data-trim contenteditable>
+   it('should redirect index.html to index.html#/phones', function() {
+    browser.get('app/index.html');
+    browser.getLocationAbsUrl().then(function(url) {
+        expect(url.split('#')[1]).toBe('/phones');
+      });
+  });
+
+  describe('Phone list view', function() {
+    beforeEach(function() {
+      browser.get('app/index.html#/phones');
+    });
+...
+
+  describe('Phone detail view', function() {
+
+    beforeEach(function() {
+      browser.get('app/index.html#/phones/nexus-s');
+    });
+
+
+    it('should display placeholder page with phoneId', function() {
+      expect(element(by.binding('phoneId')).getText()).toBe('nexus-s');
+    });
+  });
+                        </code></pre>
+                    </section>
+                </section>
+               <section>
+                    <section>
+                        <h2>Paso 7</h2>
+
+                        <pre><code data-trim contenteditable>
+                                git checkout -f step-7
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Ejercicio</h2>
+                        <li>Traer por ajax el detalle del teléfono y pintar la información en su vista</li>
+                        <li>Test unitarios del controller de detalle</li>
+                    </section>
+               </section>
+               <section>
+                    <section>
+                        <h2>Paso 8</h2>
+
+                        <pre><code data-trim contenteditable>
+                                git checkout -f step-8
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Ejercicio</h2>
+                        <li>Crear un filtro (`.filter`) en un nuevo módulo e injectarselo a nuestra aplicación</li>
+                        <li>El filtro tiene que hacaer un return de una funcion</li>
+                        <li>La función tiene que recibir un parámetro, si es true devolver \u2713 y si es false \u2718</li>
+                        <li>{{phone.connectivity.infrared | checkmark}}</li>
+                        <li>Test!! --> inject(function(checkmarkFilter) { </li>
+                    </section>
+               </section>
+               <section>
+                    <section>
+                        <h2>Paso 9</h2>
+
+                        <pre><code data-trim contenteditable>
+                                git checkout -f step-9
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Ejercicio</h2>
+                        <li>En el detalle del teléfono añadir una imagen principal con la primera foto</li>
+                        <li>Al hacer click cambiar la imagen principal (directiva ng-click)</li>
+                        <li>Test de protractor</li>
+                    </section>
+               </section>
+               <section>
+                    <section>
+                        <h2>Paso 10</h2>
+
+                        <pre><code data-trim contenteditable>
+                                git checkout -f step-10
+                        </code></pre>
+                    </section>
+                    <section>
+                        <pre><code data-trim contenteditable>
+&lt;script src=&quot;bower_components/angular-resource/angular-resource.js&quot;&gt;&lt;/script&gt;
+
+var myRest = $resource('url', {}, {
+    query: {method:'GET', params:{}, isArray:true}
+});
+
+myRest.query();
+myRest.get({params1: 111}, function() {});
+                        </code></pre>
+
+                        <aside class="notes">
+                            <p>Módulo que para lidiar con REST es mucho más cómodo que $http</p>
+                            <p>Explicar las acciones, query</p>
+                        </aside>
+                    </section>
+                    <section>
+                        <h2>Ejercicio</h2>
+                        <li>Crear nuestro propio servicio de factoria que devuelva $resource que lea del json de listado y de detalle</li>
+                        <li>Actualizar listado y detalle para que usen este servicio en vez de $http</li>
+                        <li>Comprobar los test</li>
+                    </section>
+               </section>
             </div>
         </div>
 
